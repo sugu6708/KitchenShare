@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title data-i18n="title_signup">KitchenShare - Sign Up</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<script src="tailwind.config.js"></script>
+
+  </head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min pt-safe">
+<button data-action="menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -ml-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined">restaurant_menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md text-primary dark:text-primary-fixed-dim tracking-tight">KitchenShare</h1>
+<button data-action="notifications" class="text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -mr-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open notifications" data-i18n-aria="notif_open">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[calc(48px+env(safe-area-inset-top,20px))] pb-[calc(80px+env(safe-area-inset-bottom,20px))] px-container-margin md:max-w-md md:mx-auto">
+<div class="mt-stack-gap-lg bg-surface-container-lowest rounded-3xl p-container-margin shadow-[0px_4px_20px_rgba(90,113,89,0.05)] border border-surface-variant/50">
+<div class="flex items-center gap-3 mb-stack-gap-md">
+<span class="w-12 h-12 rounded-2xl bg-primary text-on-primary flex items-center justify-center"><span class="material-symbols-outlined">person_add</span></span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight" data-i18n="lbl_welcome_ks">Welcome to KitchenShare</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm" data-i18n="lbl_signup_desc">Create an account to cook and share.</p>
+</div>
+</div>
+<div id="ks-auth-error" class="hidden mb-3 p-3 rounded-lg bg-error-container text-on-error-container font-body-md text-body-md text-sm"></div>
+
+<!-- Signup form -->
+<div class="mt-stack-gap-md p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4 text-center" data-i18n="lbl_signup_create_account">Create Account</p>
+<div class="mb-3">
+  <label class="block text-small text-on-surface-variant mb-2" data-i18n="lbl_name">Name</label>
+  <input id="ks-signup-name" type="text" class="w-full rounded-xl border border-surface-variant/50 px-4 py-2 text-body-md text-on-surface focus:ring-2 focus:ring-primary transition-colors" placeholder="Your name" required/>
+</div>
+<div class="mb-3">
+  <label class="block text-small text-on-surface-variant mb-2" data-i18n="lbl_email">Email</label>
+  <input id="ks-signup-email" type="email" class="w-full rounded-xl border border-surface-variant/50 px-4 py-2 text-body-md text-on-surface focus:ring-2 focus:ring-primary transition-colors" placeholder="name@kitchenshare.app" required/>
+</div>
+<div class="mb-3">
+  <label class="block text-small text-on-surface-variant mb-2" data-i18n="lbl_password">Password</label>
+  <input id="ks-signup-pass" type="password" class="w-full rounded-xl border border-surface-variant/50 px-4 py-2 text-body-md text-on-surface focus:ring-2 focus:ring-primary transition-colors" placeholder="••••••••" required minlength="4"/>
+</div>
+<div class="mb-3">
+  <label class="block text-small text-on-surface-variant mb-2" data-i18n="lbl_password_confirm">Confirm Password</label>
+  <input id="ks-signup-pass-conf" type="password" class="w-full rounded-xl border border-surface-variant/50 px-4 py-2 text-body-md text-on-surface focus:ring-2 focus:ring-primary transition-colors" placeholder="••••••••" required/>
+</div>
+<button id="ks-signup-submit" class="w-full rounded-xl bg-primary text-on-primary px-4 py-3 font-body-md text-body-md transition-colors hover:bg-primary/90" data-i18n="btn_signup">Create Account</button>
+</div>
+
+<!-- Quick demo link -->
+<p class="mt-4 text-center text-small text-on-surface-variant" data-i18n="lbl_have_account">Already have an account? <a href="login.html" class="font-body-md text-body-md text-on-surface hover:underline">Sign In</a></p>
+</div>
+</main>
+<script src="i18n.js"></script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script>
+</body></html>

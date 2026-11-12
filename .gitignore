@@ -1,0 +1,30 @@
+# KitchenShare Git Ignore
+
+# User Database, Accounts & Dynamic State (Protected on Local PC - Never Commit to Git)
+data/
+*.db
+*.db-wal
+*.db-shm
+server_users.json*
+server_content.json*
+admin_audit.log
+uploads/
+backups/
+
+# System & Runtime Logs
+*.log
+__server.log
+__server_err.log
+__pycache__/
+*.pyc
+
+# OS & Environment
+.DS_Store
+Thumbs.db
+.env
+.vscode/
+.idea/
+
+# Node / Dependencies
+node_modules/
+dist/

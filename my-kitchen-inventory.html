@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title_kitchen">KitchenShare - My Kitchen</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Work+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="tailwind.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<!-- dev fallback (runtime JIT, slower): <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+<script src="tailwind.config.js"></script>
+
+
+  </head>
+<body class="bg-background text-on-background h-full font-body-md antialiased pt-20 pb-24 md:pb-8">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min">
+<button data-action="menu" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md text-primary tracking-tight">KitchenShare</h1>
+<button data-action="notifications" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200" aria-label="Open notifications" data-i18n-aria="notif_open">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+<!-- Desktop Navigation Embedded in Header -->
+<nav class="hidden md:flex justify-center pb-4 gap-8">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200" href="index.html">
+<span class="font-label-caps text-label-caps" data-i18n="nav_feed">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary border-b-2 border-primary hover:opacity-80 transition-opacity active:scale-95 duration-200 pb-1" href="my-kitchen-inventory.html">
+<span class="font-label-caps text-label-caps" data-i18n="nav_kitchen">My Kitchen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200" href="shopping-list.html">
+<span class="font-label-caps text-label-caps" data-i18n="nav_shopping">Shopping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200" href="user-profile.html">
+<span class="font-label-caps text-label-caps" data-i18n="nav_profile">Profile</span>
+</a>
+</nav>
+</header>
+<main class="max-w-7xl mx-auto px-container-margin mt-stack-gap-lg">
+<!-- Summary Card -->
+<section class="bg-surface-container-lowest rounded-xl ambient-shadow-card p-6 mb-stack-gap-lg md:flex md:items-center md:justify-between">
+<div class="mb-4 md:mb-0">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2" data-i18n="lbl_kitchen_title">My Kitchen Inventory</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="lbl_kitchen_desc">Manage your current stock and plan your meals efficiently.</p></div>
+<div class="flex gap-8">
+<div>
+<span class="block font-label-caps text-label-caps text-on-surface-variant mb-1" data-i18n="lbl_total_items">TOTAL ITEMS</span>
+<span id="total-items" class="font-metric-xl text-metric-xl text-primary">42</span>
+</div>
+<div>
+<span class="block font-label-caps text-label-caps text-on-surface-variant mb-1" data-i18n="lbl_low_stock">LOW STOCK</span>
+<span id="low-stock" class="font-metric-xl text-metric-xl text-error">3</span>
+</div>
+</div>
+</section>
+<!-- Main Content Area: Bento Grid Layout for Categories -->
+<div id="categories" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Category: Fridge -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-card p-6 flex flex-col">
+<div class="flex items-center justify-between mb-stack-gap-md border-b border-surface-variant pb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_fridge">Fridge</h3>
+<span class="material-symbols-outlined text-primary" data-icon="kitchen">kitchen</span>
+</div>
+<ul id="list-fridge" class="flex-1 space-y-stack-gap-sm"></ul>
+</div>
+<!-- Category: Pantry -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-card p-6 flex flex-col">
+<div class="flex items-center justify-between mb-stack-gap-md border-b border-surface-variant pb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_pantry">Pantry</h3>
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+</div>
+<ul id="list-pantry" class="flex-1 space-y-stack-gap-sm"></ul>
+</div>
+<!-- Category: Spices -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-card p-6 flex flex-col">
+<div class="flex items-center justify-between mb-stack-gap-md border-b border-surface-variant pb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_spices">Spices &amp; Herbs</h3>
+<span class="material-symbols-outlined text-primary" data-icon="local_florist">local_florist</span>
+</div>
+<ul id="list-spices" class="flex-1 space-y-stack-gap-sm"></ul>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) for Add Ingredient -->
+<button id="fab-add-ingredient" aria-label="Add ingredient" data-i18n-aria="lbl_add_ingredient" class="fixed bottom-24 md:bottom-8 right-container-margin w-14 h-14 bg-primary text-on-primary rounded-full ambient-shadow-fab flex items-center justify-center hover:opacity-90 active:scale-95 transition-all z-40 group">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<!-- Tooltip -->
+<span class="absolute right-16 bg-inverse-surface text-inverse-on-surface font-label-caps text-label-caps px-3 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap" data-i18n="lbl_add_ingredient">Add Ingredient</span>
+</button>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(66,88,66,0.05)] flex justify-around items-center h-20 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 p-2 rounded-lg" href="index.html">
+<span class="material-symbols-outlined mb-1" data-icon="home_storage">home_storage</span>
+<span class="font-label-caps text-label-caps" data-i18n="nav_feed">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-fixed-variant text-on-primary-container dark:text-on-primary-fixed-variant rounded-full px-4 py-1 hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150" href="my-kitchen-inventory.html">
+<span class="material-symbols-outlined mb-1" data-icon="kitchen" data-weight="fill" style="font-variation-settings: 'FILL' 1;">kitchen</span>
+<span class="font-label-caps text-label-caps" data-i18n="nav_kitchen">My Kitchen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 p-2 rounded-lg" href="shopping-list.html">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-label-caps text-label-caps" data-i18n="nav_shopping">Shopping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 p-2 rounded-lg" href="user-profile.html">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps" data-i18n="nav_profile">Profile</span>
+</a>
+</nav>
+<script src="i18n.js"></script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script>
+</body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title data-i18n="title_leaderboard">KitchenShare - Leaderboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="tailwind.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<!-- dev fallback (runtime JIT, slower): <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<script src="tailwind.config.js"></script>
+
+  </head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min pt-safe">
+<button data-action="menu" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -ml-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined">restaurant_menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md text-primary tracking-tight" data-i18n="more_leaderboard">Leaderboard</h1>
+<button data-action="notifications" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -mr-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open notifications" data-i18n-aria="notif_open">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[calc(48px+env(safe-area-inset-top,20px))] pb-[calc(80px+env(safe-area-inset-bottom,20px))] px-container-margin md:max-w-3xl md:mx-auto">
+<section class="my-stack-gap-md">
+<div id="ks-lb-tabs" class="flex gap-2 mb-4">
+<button data-lb-tab="recipes" class="flex-1 h-touch-target-min rounded-full bg-primary text-on-primary font-label-caps text-label-caps uppercase flex items-center justify-center gap-1 transition-colors"><span class="material-symbols-outlined text-[16px]">menu_book</span><span data-i18n="lbl_tab_recipes">Recipes</span></button>
+<button data-lb-tab="followers" class="flex-1 h-touch-target-min rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase flex items-center justify-center gap-1 transition-colors"><span class="material-symbols-outlined text-[16px]">groups</span><span data-i18n="lbl_tab_followers">Followers</span></button>
+<button data-lb-tab="streaks" class="flex-1 h-touch-target-min rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase flex items-center justify-center gap-1 transition-colors"><span class="material-symbols-outlined text-[16px]">whatshot</span><span data-i18n="lbl_tab_streaks">Streaks</span></button>
+</div>
+<h2 id="ks-lb-heading" class="font-headline-md text-headline-md text-on-surface mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-primary">emoji_events</span> <span id="ks-lb-heading-text" data-i18n="lb_most_recipes">Most Recipes</span></h2>
+<div id="ks-leaderboard-list" class="flex flex-col gap-2"></div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface shadow-[0px_-4px_20px_rgba(66,88,66,0.05)] md:hidden">
+<div class="flex justify-around items-center h-20 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="index.html">
+<span class="material-symbols-outlined">home_storage</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_feed">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="my-kitchen-inventory.html">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_kitchen">My Kitchen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="shopping-list.html">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_shopping">Shopping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="user-profile.html">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_profile">Profile</span>
+</a>
+</div>
+</nav>
+<script src="i18n.js"></script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script>
+</body></html>

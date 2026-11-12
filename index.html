@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title data-i18n="title_feed">KitchenShare - Feed</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="tailwind.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<!-- dev fallback (runtime JIT, slower): <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<script src="tailwind.config.js"></script>
+
+
+  </head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min pt-safe">
+<button data-action="menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -ml-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined">restaurant_menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md text-primary dark:text-primary-fixed-dim tracking-tight">KitchenShare</h1>
+<button data-action="notifications" class="text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 p-2 -mr-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open notifications" data-i18n-aria="notif_open">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[calc(48px+env(safe-area-inset-top,20px))] md:pt-[calc(96px+env(safe-area-inset-top,20px))] pb-[calc(80px+env(safe-area-inset-bottom,20px))] px-container-margin md:px-0 md:max-w-7xl md:mx-auto">
+<!-- Search & Filter Area -->
+<section class="my-stack-gap-md md:my-stack-gap-lg">
+<div class="relative w-full md:w-2/3 lg:w-1/2 mx-auto">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input id="search-input" class="w-full h-touch-target-min pl-12 pr-4 bg-secondary-container/30 border-2 border-transparent focus:border-primary rounded-[16px] font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 transition-colors" placeholder="Search recipes or ingredients..." type="text" data-i18n-placeholder="lbl_search_ph"/>
+</div>
+<!-- Categories Scroll -->
+<div id="category-pills" class="mt-stack-gap-sm md:mt-stack-gap-md -mx-container-margin px-container-margin md:mx-0 md:px-0 flex overflow-x-auto hide-scrollbar gap-unit snap-x snap-mandatory">
+</div>
+</section>
+<!-- Bento Grid / Recipe Cards -->
+<section id="recipe-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter pb-stack-gap-lg">
+<!-- Card 1 -->
+<article data-category="italian quick dinner" data-recipe="creamy-tuscan-chicken" class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(90,113,89,0.05)] transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
+<div class="relative w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautiful, overhead shot of a rustic cast iron skillet filled with creamy Tuscan chicken, sun-dried tomatoes, and spinach. The dish is placed on a light wooden farmhouse table. Natural, sun-drenched lighting creates a wholesome, airy, modern culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOb6rbyxUrHxi10hEK8NBGsM1eXwSdAPDZAy-kgGdQt_Iu97IYEFKJ-rpqJlpXaqOWvkfRn5U_VRLs8Nv51gwC-vZfD1OsBvFwwYex_49FnO_nOvdY0s1_Nnb65ZX0UmQZtnsBO3BP6uzxW3E3wIfTz9RAn30epwYFTfZEsDc4E4FPKY0k-qmV9WEbanfQ0cGN5BoTTB4GdXwSPEoykh8IPkdhC2Rp0MAIIMWi3uPmhiKuBvLAy-2VRA"/>
+<div class="absolute top-3 right-3 bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-1 shadow-md backdrop-blur-sm bg-primary-container/90">
+<span class="material-symbols-outlined text-[16px]">inventory</span>
+<span class="font-label-caps text-label-caps" data-i18n="match_pct" data-i18n-vars='{"pct":"95"}'>95% Match</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface">Creamy Tuscan Garlic Chicken</h2>
+<button data-action="bookmark" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors focus:outline-none p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-on-surface-variant"><span class="material-symbols-outlined text-[14px]">person</span><span data-i18n="lbl_by">by</span> KitchenShare</div>
+<div class="flex flex-wrap items-center gap-3 font-body-md text-[14px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 30 min</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">Dinner</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">High Protein</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article data-category="vegan quick lunch vegetarian" data-recipe="mediterranean-quinoa-bowl" class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(90,113,89,0.05)] transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
+<div class="relative w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, close-up photograph of a fresh Mediterranean quinoa salad bowl. The bowl features bright cherry tomatoes, crisp cucumbers, feta cheese, and kalamata olives on a bed of fluffy quinoa. Shot on a clean white marble countertop with soft, diffused natural light emphasizing healthy, clean ingredients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-hCmR0cxKmCY4okV-cUo2uUeJjK7mIjn_muh-UMb3XFHxcrH8vIBxBPxwHCPRH22HjYWrmlZ_dCqzVenqIuQnsxCaAepsQpQwV1_iQeZeAp2LAQI87QzzG6ouolMdpb3fCNEGXXYPRXoTUaTA3RhvICvxZM4-SewSFsU8euuaF2qzrz9HhuwFvE8yG7tWTtVYwwcPBwCNEKxqg7RP-TesG6rXBbioMtWy2r6Q2cepu-0MiZaZx_zFnQ"/>
+<div class="absolute top-3 right-3 bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-1 shadow-md backdrop-blur-sm bg-primary-container/90">
+<span class="material-symbols-outlined text-[16px]">inventory</span>
+<span class="font-label-caps text-label-caps" data-i18n="match_pct" data-i18n-vars='{"pct":"100"}'>100% Match</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface">Mediterranean Quinoa Bowl</h2>
+<button data-action="bookmark" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors focus:outline-none p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-on-surface-variant"><span class="material-symbols-outlined text-[14px]">person</span><span data-i18n="lbl_by">by</span> KitchenShare</div>
+<div class="flex flex-wrap items-center gap-3 font-body-md text-[14px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 15 min</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">Lunch</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">Vegetarian</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article data-category="vegan soup" data-recipe="hearty-veggie-minestrone" class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(90,113,89,0.05)] transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
+<div class="relative w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A rustic, hearty bowl of classic minestrone soup with crusty artisan bread on the side. The soup is rich with tomatoes, beans, and seasonal vegetables. Placed on a textured linen napkin over a warm wooden surface. Soft, cozy lighting highlights the steam rising gently from the bowl." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzYDzszjigCq0kw0eKGnIZPBgbtjwXncCye-WpWmtl_QvdrlDY86TXRQIcSrjrarzm8MIdqRFWFcNeElyNKplG3TX1UUEUoBA2tpuB9fAPlfpSeTYWoANyu9ea7ks1Fsxc1rCle1JVuLxsXTMUfAf5IiIkVKN933dHfVblzqALCdvhc5U-_V6198vr0jlv2cymnz-gR_4TGdFoQSAOPgC7Xhlc7y7yQCa8F6awJsHdsxalgNUGWZN7wQ"/>
+<div class="absolute top-3 right-3 bg-[#e5ad9e] text-[#4f3128] px-3 py-1 rounded-full flex items-center gap-1 shadow-md backdrop-blur-sm">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-caps text-label-caps" data-i18n="match_pct" data-i18n-vars='{"pct":"60"}'>60% Match</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-md text-[20px] leading-[28px] font-semibold text-on-surface">Hearty Veggie Minestrone</h2>
+<button data-action="bookmark" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors focus:outline-none p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-on-surface-variant"><span class="material-symbols-outlined text-[14px]">person</span><span data-i18n="lbl_by">by</span> KitchenShare</div>
+<div class="flex flex-wrap items-center gap-3 font-body-md text-[14px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 45 min</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">Soup</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-tertiary">Vegan</span>
+</div>
+<div class="mt-2 flex gap-2">
+<span class="text-[12px] font-body-md text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-md">Missing: Celery, Diced Tomatoes</span>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button id="fab-add" aria-label="Create" data-i18n-aria="lbl_create" class="fixed bottom-[calc(96px+env(safe-area-inset-bottom,20px))] right-container-margin md:bottom-container-margin w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-[0px_12px_32px_rgba(90,113,89,0.3)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40 focus:outline-none focus:ring-4 focus:ring-primary-container">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(66,88,66,0.05)] md:hidden">
+<div class="flex justify-around items-center h-20 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-fixed-variant text-on-primary-container dark:text-on-primary-fixed-variant rounded-full px-4 py-1 hover:opacity-80 transition-opacity active:scale-90 duration-150" href="index.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home_storage</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_feed">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="my-kitchen-inventory.html">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_kitchen">My Kitchen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="shopping-list.html">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_shopping">Shopping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-secondary-container/50 dark:hover:bg-on-secondary-fixed-variant/20 transition-colors active:scale-90 duration-150 px-4 py-1 rounded-full" href="user-profile.html">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps mt-1" data-i18n="nav_profile">Profile</span>
+</a>
+</div>
+</nav>
+
+<script src="nutrients.js"></script>
+<script src="i18n.js"></script>
+<div id="ks-debug-errors" style="display:none;position:fixed;top:60px;left:10px;right:10px;z-index:999;background:red;color:white;padding:12px;border-radius:8px;font-size:13px;max-height:200px;overflow:auto;"></div>
+<script>window.onerror=function(m,s,l,c,e){var d=document.getElementById('ks-debug-errors');d.style.display='block';d.innerHTML+='<b>JS Error:</b> '+m+' (line '+l+':'+c+')<br>';return false;};</script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script><script src="js/28_groups.js"></script>
+</body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title data-i18n="title_profile">KitchenShare - Profile</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Work+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="tailwind.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<!-- dev fallback (runtime JIT, slower): <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+<script src="tailwind.config.js"></script>
+
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min">
+<button data-action="menu" class="w-touch-target-min h-touch-target-min flex items-center justify-center text-primary active:scale-95 duration-200 hover:opacity-80 transition-opacity" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md text-primary tracking-tight">KitchenShare</h1>
+<button data-action="notifications" class="w-touch-target-min h-touch-target-min flex items-center justify-center text-primary active:scale-95 duration-200 hover:opacity-80 transition-opacity" aria-label="Open notifications" data-i18n-aria="notif_open">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-24 md:pt-[124px] px-container-margin max-w-4xl mx-auto space-y-stack-gap-lg">
+<!-- Profile Header -->
+<section class="flex flex-col items-center text-center space-y-stack-gap-sm pt-8">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden shadow-ambient-sm border-4 border-surface bg-surface-variant">
+<img id="profile-photo" class="w-full h-full object-cover" alt="Profile photo" data-alt="A high-quality, brightly lit lifestyle portrait of a smiling home chef with dark hair in a clean, modern, sunlit kitchen setting. They are wearing a simple, elegant sage green apron over a crisp white shirt. The photo exudes warmth, community, and organic freshness, fitting a wholesome modern tactile minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPveBRAOu92pZjGGd9rslMnOfwu67lLlddixtEU5YZCjLwobZczbuc4mX-cboL_qK1p3eGany0wF54h1FR2t709l5gUVqn_LRNDeu_Mf3xctu1tZU3VJbLtyWQI8-1R5-J7eOBzcLerYGxUNap78UwMwtoV1WplyX8ZoE1jguAnQTNzwgIvOQ431UfX49nmnaB5j3AayFtkeunmBFEshCoKK6bQCJZJq88kWF2jtsqupO8X9qscbLtQQ" data-default="https://lh3.googleusercontent.com/aida-public/AB6AXuBPveBRAOu92pZjGGd9rslMnOfwu67lLlddixtEU5YZCjLwobZczbuc4mX-cboL_qK1p3eGany0wF54h1FR2t709l5gUVqn_LRNDeu_Mf3xctu1tZU3VJbLtyWQI8-1R5-J7eOBzcLerYGxUNap78UwMwtoV1WplyX8ZoE1jguAnQTNzwgIvOQ431UfX49nmnaB5j3AayFtkeunmBFEshCoKK6bQCJZJq88kWF2jtsqupO8X9qscbLtQQ"/>
+</div>
+<button data-action="edit-profile" aria-label="Edit profile" data-i18n-aria="lbl_edit_profile_aria" class="absolute bottom-0 right-0 bg-primary-container text-on-primary-container rounded-full w-10 h-10 flex items-center justify-center border-2 border-surface shadow-ambient-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">sugu</h2>
+<div class="inline-flex items-center gap-1.5 bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-caps text-label-caps uppercase text-primary">Admin &amp; Chef</span>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-2">
+<div class="flex items-center gap-1">
+<button id="ps-followers-btn" class="flex items-center gap-1 hover:underline" data-action="show-followers"><span id="ps-followers" class="font-headline-md text-[16px] text-on-surface">0</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant lowercase" data-i18n="lbl_followers">Followers</span></button>
+</div>
+<div class="w-px h-3 bg-outline-variant"></div>
+<div class="flex items-center gap-1">
+<button id="ps-following-btn" class="flex items-center gap-1 hover:underline" data-action="show-following"><span id="ps-following" class="font-headline-md text-[16px] text-on-surface">0</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant lowercase" data-i18n="lbl_following_label">Following</span></button>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto pt-2">
+Home cook who loves flavour-first, everyday cooking.
+</p>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-2 gap-gutter md:grid-cols-4">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-[16px] p-4 shadow-ambient-sm flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<div class="text-on-surface-variant flex justify-between items-start">
+<span class="font-label-caps text-label-caps uppercase" data-i18n="lbl_recipes_cooked">Recipes Cooked</span>
+<span class="material-symbols-outlined text-primary/60 text-[20px]">skillet</span>
+</div>
+<div id="ps-cooked" class="font-metric-xl text-metric-xl text-primary mt-auto">0</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-primary text-on-primary rounded-[16px] p-4 shadow-ambient-sm flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<div class="text-on-primary/80 flex justify-between items-start">
+<span class="font-label-caps text-label-caps uppercase" data-i18n="lbl_ingredients_saved">Ingredients Saved</span>
+<span class="material-symbols-outlined text-on-primary/80 text-[20px]">compost</span>
+</div>
+<div class="font-metric-xl text-metric-xl mt-auto"><span id="ps-saved">0</span><span class="text-headline-md font-headline-md ml-1 opacity-80">kg</span></div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-secondary-fixed text-on-secondary-fixed rounded-[16px] p-4 shadow-ambient-sm flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<div class="text-on-secondary-fixed-variant flex justify-between items-start">
+<span class="font-label-caps text-label-caps uppercase" data-i18n="lbl_community_likes">Community Likes</span>
+<span class="material-symbols-outlined text-secondary/60 text-[20px]">favorite</span>
+</div>
+<div id="ps-likes" class="font-metric-xl text-metric-xl mt-auto">0</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-lowest rounded-[16px] p-4 shadow-ambient-sm flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<div class="text-on-surface-variant flex justify-between items-start">
+<span class="font-label-caps text-label-caps uppercase" data-i18n="lbl_current_streak">Current Streak</span>
+<span class="material-symbols-outlined text-primary/60 text-[20px]">local_fire_department</span>
+</div>
+<div class="font-metric-xl text-metric-xl text-primary mt-auto"><span id="ps-streak">0</span><span class="text-headline-md font-headline-md ml-1 opacity-80">days</span></div>
+</div>
+</section>
+<!-- Cooking Activity Chart -->
+<section class="bg-surface-container-lowest rounded-[16px] p-container-margin shadow-ambient-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6" data-i18n="lbl_weekly_activity">Weekly Activity</h3>
+<div id="weekly-bars" class="flex items-end justify-between h-40 gap-2">
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Mon">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_mon">Mon</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Tue">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_tue">Tue</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Wed">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_wed">Wed</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Thu">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_thu">Thu</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Fri">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_fri">Fri</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Sat">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_sat">Sat</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1 group h-full" data-day="Sun">
+<div class="w-full bg-surface-variant rounded-t-lg relative flex-1 flex items-end">
+<div class="bar-fill w-full bg-primary-fixed-dim rounded-t-lg transition-all duration-300" style="height:0%"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_day_sun">Sun</span>
+</div>
+</div>
+</section>
+<!-- Posts -->
+<section id="profile-posts-section" class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_posts_list">Posts</h3>
+</div>
+<div id="profile-posts" class="space-y-3"></div>
+<div id="profile-posts-empty" class="hidden flex flex-col items-center text-center py-8">
+<span class="material-symbols-outlined text-[40px] text-outline">mode_comment</span>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant" data-i18n="lbl_no_user_posts">No posts yet.</p>
+</div>
+</section>
+<!-- Cooked Today -->
+<section id="profile-cooked-section" class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_cooked_today">Cooked Today</h3>
+</div>
+<div id="profile-cooked-today" class="space-y-3"></div>
+<div id="profile-cooked-empty" class="hidden flex flex-col items-center text-center py-8">
+<span class="material-symbols-outlined text-[40px] text-outline">skillet</span>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant" data-i18n="lbl_no_cooked_today">Nothing cooked yet today.</p>
+</div>
+</section>
+<!-- User Recipes -->
+<section id="profile-recipes-section" class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_my_recipes_list">Recipes</h3>
+</div>
+<div id="profile-recipes" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+<div id="profile-recipes-empty" class="hidden flex flex-col items-center text-center py-8">
+<span class="material-symbols-outlined text-[40px] text-outline">menu_book</span>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant" data-i18n="lbl_no_user_recipes">No recipes shared yet.</p>
+</div>
+</section>
+<!-- Achievements -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_achievements">Achievements</h3>
+<span id="achievements-count" class="font-label-caps text-label-caps uppercase text-on-surface-variant">0/15</span>
+</div>
+<div id="achievements-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-gutter"></div>
+</section>
+<!-- Favorite Recipes -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="lbl_favorite_recipes">Favorite Recipes</h3>
+<button id="view-all-favorites" class="text-primary font-label-caps text-label-caps uppercase hover:opacity-80" data-i18n="lbl_view_all">View All</button>
+</div>
+<div id="favorites-scroll" class="flex overflow-x-auto gap-4 pb-4 hide-scrollbar -mx-container-margin px-container-margin md:mx-0 md:px-0"></div>
+<div id="favorites-empty" class="hidden flex flex-col items-center text-center py-8">
+<span class="material-symbols-outlined text-[40px] text-outline">favorite_border</span>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant" data-i18n="lbl_no_favorites">No favorites yet. Tap the bookmark on any recipe to save it here.</p>
+</div>
+</section>
+<!-- Data & Privacy -->
+<section class="space-y-4 bg-surface-container-lowest rounded-[16px] p-container-margin shadow-ambient-sm" id="data-privacy-section">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary">shield</span><span data-i18n="lbl_data_privacy">Data &amp; Privacy</span></h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm" data-i18n="lbl_data_privacy_desc">Export a copy of your data or permanently delete your account. Deletion removes your recipes, posts, and personal data from this device and the server.</p>
+<div class="flex flex-col sm:flex-row gap-3">
+<button id="ks-export-data" class="flex-1 flex items-center justify-center gap-2 h-12 rounded-full bg-surface-container-high text-on-surface font-headline-md text-[14px] hover:bg-surface-container-highest active:scale-95 transition-all"><span class="material-symbols-outlined text-[18px]">download</span><span data-i18n="lbl_export_my_data">Export my data</span></button>
+<button id="ks-delete-account" class="flex-1 flex items-center justify-center gap-2 h-12 rounded-full bg-error-container text-on-error-container font-headline-md text-[14px] hover:opacity-90 active:scale-95 transition-all"><span class="material-symbols-outlined text-[18px]">delete_forever</span><span data-i18n="lbl_delete_account">Delete my account + data</span></button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface shadow-[0px_-4px_20px_rgba(66,88,66,0.05)] flex justify-around items-center h-20 px-4 pb-safe md:hidden">
+<a href="index.html" class="w-16 h-full flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 rounded-lg">
+<span class="material-symbols-outlined mb-1">home_storage</span>
+<span class="font-label-caps text-label-caps text-[10px]" data-i18n="nav_feed">Feed</span>
+</a>
+<a href="my-kitchen-inventory.html" class="w-16 h-full flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 rounded-lg">
+<span class="material-symbols-outlined mb-1">kitchen</span>
+<span class="font-label-caps text-label-caps text-[10px]" data-i18n="nav_kitchen">My Kitchen</span>
+</a>
+<a href="shopping-list.html" class="w-16 h-full flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 transition-colors active:scale-90 duration-150 rounded-lg">
+<span class="material-symbols-outlined mb-1">shopping_basket</span>
+<span class="font-label-caps text-label-caps text-[10px]" data-i18n="nav_shopping">Shopping</span>
+</a>
+<a href="user-profile.html" class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 duration-150">
+<span class="material-symbols-outlined mb-0.5" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps text-[10px]" data-i18n="nav_profile">Profile</span>
+</a>
+</nav>
+<script src="i18n.js"></script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script>
+</body></html>

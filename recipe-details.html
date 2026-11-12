@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title_recipe_detail">KitchenShare - Recipe Detail</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23465844'/><text x='50' y='70' font-size='56' text-anchor='middle' fill='%23F6F9F2' font-family='Arial,Helvetica,sans-serif' font-weight='700'>K</text></svg>"/>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="tailwind.css" />
+<link rel="manifest" href="manifest.webmanifest"/>
+<!-- dev fallback (runtime JIT, slower): <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+<script src="tailwind.config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Work+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+
+
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-touch-target-min">
+<button data-action="menu" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 w-touch-target-min h-touch-target-min flex items-center justify-center -ml-3" aria-label="Open menu" data-i18n-aria="drawer_open_menu">
+<span class="material-symbols-outlined">restaurant_menu</span>
+</button>
+<a aria-label="Back" data-i18n-aria="lbl_back" href="index.html" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 w-touch-target-min h-touch-target-min flex items-center justify-center -ml-3">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</a>
+<h1 class="font-display-lg text-headline-md text-primary tracking-tight">KitchenShare</h1>
+<button data-action="notifications" aria-label="Notifications" data-i18n-aria="notif_title" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 w-touch-target-min h-touch-target-min flex items-center justify-center -mr-3">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-[calc(48px+16px)] md:pt-[calc(120px+16px)]">
+<!-- Hero Section -->
+<div class="px-container-margin md:max-w-4xl md:mx-auto md:px-0">
+<div class="relative w-full aspect-[4/3] md:aspect-video rounded-2xl overflow-hidden mb-stack-gap-lg shadow-[0px_4px_20px_rgba(90,113,89,0.05)]">
+<img id="rd-hero-img" alt="Rustic Pasta" class="hidden w-full h-full object-cover" data-alt="A close-up, high-end food photography shot of a steaming bowl of rustic pasta with fresh basil and grated parmesan on top. The scene is set on a light-colored wooden table with a soft, natural light coming from a nearby window, creating a warm and inviting atmosphere. A linen napkin and simple silverware are visible in the blurred background. The style is modern, airy, and wholesome." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9oKRLO_11RAfPXxKszQloGh_Bt6BPcm6MePDry367W64VSi3cjYFu-PKUCup1BoSs3Zu175_gX5cG2EXuA7uB_XV40Wt0m8fDTCj6iyfAyHesS95z8ngfOSFgUyqw84B5V5CUMw-z3CCMA0bMIdQGlhXMPDrDRHtoroPSgXEBCfWUU5G4eoWllnZpRbOavXFOgPJMocnuH9pb2sB-xOMVmxzO5YFXR766J6c2ldoqYttCMj7HxnK5Hg"/>
+<div id="rd-hero-ph" class="hidden absolute inset-0 w-full h-full bg-gradient-to-br from-[#dcefd8] to-[#a8d3a0] flex items-center justify-center">
+<span id="rd-hero-icon" class="material-symbols-outlined text-[96px] text-on-primary-fixed/70">restaurant</span>
+</div>
+<div id="rd-hero-photos" class="hidden absolute inset-0 w-full h-full"></div>
+<div id="rd-hero-dots" class="hidden absolute bottom-3 inset-x-0 flex items-center justify-center gap-1.5 z-10"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-container-margin pt-16">
+<span id="rd-tag" class="inline-block px-3 py-1 mb-2 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps">Dinner • Pasta</span>
+<h2 id="rd-title" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-2">Rustic Basil Pomodoro</h2>
+<div class="flex items-center text-white/90 gap-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<span id="rd-time" class="font-body-md text-body-md">25 min</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="local_fire_department">local_fire_department</span>
+<span id="rd-kcal" class="font-body-md text-body-md">450 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+<span id="rd-servings" class="font-body-md text-body-md">2 servings</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="rd-video" class="hidden px-container-margin md:max-w-4xl md:mx-auto md:px-0 mb-stack-gap-lg">
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-[0px_4px_20px_rgba(90,113,89,0.05)]">
+<video id="rd-video-player" class="w-full h-full object-contain" controls playsinline preload="metadata"></video>
+</div>
+</div>
+<div class="px-container-margin md:max-w-4xl md:mx-auto md:px-0 grid grid-cols-1 md:grid-cols-12 gap-gutter md:gap-stack-gap-lg">
+<!-- Left Column: Ingredients -->
+<div class="md:col-span-5">
+<div class="bg-surface-container-lowest rounded-[16px] p-container-margin shadow-[0px_4px_20px_rgba(90,113,89,0.05)] border border-surface-variant/50">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md flex items-center justify-between">
+                        <span data-i18n="lbl_ingredients">Ingredients</span>
+                        <span id="rd-ing-servings" class="font-body-md text-body-md text-on-surface-variant font-normal">2 servings</span>
+</h3>
+<!-- Status Bar -->
+<div id="cook-status" class="bg-error-container/30 border border-error/20 rounded-lg p-3 mb-stack-gap-md flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5" data-icon="error_outline">error_outline</span>
+<div>
+<p id="cook-status-title" class="font-body-md text-body-md text-on-surface font-semibold">Missing 1 Ingredient</p>
+<p id="cook-status-desc" class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">You don't have enough Fresh Basil. Cooking will result in a negative balance.</p>
+</div>
+</div>
+<ul id="recipe-ingredients" class="space-y-3"></ul>
+</div>
+<!-- Nutrition -->
+<div id="rd-nutrition-card" class="bg-surface-container-lowest rounded-[16px] p-container-margin shadow-[0px_4px_20px_rgba(90,113,89,0.05)] border border-surface-variant/50 mt-stack-gap-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md flex items-center justify-between">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">monitor_heart</span> <span data-i18n="lbl_nutrition">Nutrition</span></span>
+<span id="rd-nutrition-servings" class="font-body-md text-body-md text-on-surface-variant font-normal"></span>
+</h3>
+<div id="rd-nutrition-body" class="grid grid-cols-4 gap-2 text-center">
+<div class="rounded-xl bg-primary-container/40 p-2"><div id="rd-n-kcal" class="font-headline-md text-[18px] text-on-surface">--</div><div class="font-label-caps text-label-caps text-on-surface-variant">kcal</div></div>
+<div class="rounded-xl bg-secondary-container/40 p-2"><div id="rd-n-protein" class="font-headline-md text-[18px] text-on-surface">--</div><div class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_protein">Protein</div></div>
+<div class="rounded-xl bg-secondary-container/40 p-2"><div id="rd-n-fat" class="font-headline-md text-[18px] text-on-surface">--</div><div class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_fat">Fat</div></div>
+<div class="rounded-xl bg-secondary-container/40 p-2"><div id="rd-n-fiber" class="font-headline-md text-[18px] text-on-surface">--</div><div class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="lbl_fiber">Fiber</div></div>
+</div>
+<p id="rd-nutrition-note" class="mt-2 font-label-caps text-label-caps text-on-surface-variant"></p>
+</div>
+<!-- Plan Shopping -->
+<div class="bg-surface-container-lowest rounded-[16px] p-container-margin shadow-[0px_4px_20px_rgba(90,113,89,0.05)] border border-surface-variant/50 mt-stack-gap-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md flex items-center justify-between">
+                        <span data-i18n="lbl_plan_shopping">Plan Shopping</span>
+                        <span class="font-body-md text-body-md text-on-surface-variant font-normal" data-i18n="lbl_adjust_qty">adjust quantities</span>
+</h3>
+<div id="plan-rows" class="space-y-1"></div>
+<button id="plan-add-all" class="mt-4 w-full h-12 rounded-full bg-secondary-container text-on-secondary-container font-headline-md text-body-md flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[18px]">shopping_basket</span>
+                        <span data-i18n="lbl_add_all_shopping">Add All to Shopping List</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Instructions -->
+<div class="md:col-span-7 mt-stack-gap-lg md:mt-0">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md px-2" data-i18n="lbl_instructions">Instructions</h3>
+<div id="rd-steps" class="space-y-stack-gap-lg relative before:absolute before:inset-y-0 before:left-[19px] before:w-0.5 before:bg-surface-variant/50">
+<!-- Step 1 -->
+<div class="relative flex gap-container-margin">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-md text-headline-md text-primary z-10 border-4 border-background">
+                            1
+                        </div>
+<div class="pt-1.5 pb-2">
+<h4 class="font-headline-md text-[18px] leading-[24px] text-on-surface mb-2">Prep Ingredients</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Mince the garlic and roughly chop the fresh basil. Set aside a few basil leaves for garnish.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex gap-container-margin">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-md text-headline-md text-primary z-10 border-4 border-background">
+                            2
+                        </div>
+<div class="pt-1.5 pb-2">
+<h4 class="font-headline-md text-[18px] leading-[24px] text-on-surface mb-2">Boil Pasta</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Bring a large pot of salted water to a boil. Add the penne and cook according to package instructions (about 10-12 minutes) until al dente.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex gap-container-margin">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-md text-headline-md text-primary z-10 border-4 border-background">
+                            3
+                        </div>
+<div class="pt-1.5 pb-2">
+<h4 class="font-headline-md text-[18px] leading-[24px] text-on-surface mb-2">Make Sauce</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">In a large skillet, heat olive oil over medium heat. Sauté the minced garlic until fragrant. Pour in the crushed tomatoes, season with salt and pepper, and let simmer for 8 minutes.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative flex gap-container-margin">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-md text-headline-md text-primary z-10 border-4 border-background">
+                            4
+                        </div>
+<div class="pt-1.5 pb-2">
+<h4 class="font-headline-md text-[18px] leading-[24px] text-on-surface mb-2">Combine and Serve</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Drain the pasta and add it directly to the skillet with the sauce. Toss well to coat. Stir in the chopped basil. Serve immediately, garnished with remaining basil.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Comments -->
+<div id="rd-comments" class="px-container-margin md:max-w-4xl md:mx-auto md:px-0 mt-stack-gap-lg">
+<div class="bg-surface-container-lowest rounded-[16px] p-container-margin shadow-[0px_4px_20px_rgba(90,113,89,0.05)] border border-surface-variant/50">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md flex items-center justify-between">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">forum</span> <span data-i18n="lbl_comments">Comments</span></span>
+<span id="rd-comment-count" class="font-body-md text-body-md text-on-surface-variant font-normal">0</span>
+</h3>
+<div id="rd-comments-list" class="space-y-stack-gap-md"></div>
+<div id="rd-comment-login" class="hidden p-4 rounded-xl bg-surface-container-low text-center">
+<p class="font-body-md text-body-md text-on-surface-variant mb-3" data-i18n="lbl_login_convo">Log in to join the conversation.</p>
+<a href="login.html" class="inline-flex h-11 px-5 rounded-full bg-primary text-on-primary font-headline-md text-[15px] items-center justify-center" data-i18n="lbl_log_in_btn">Log in</a>
+</div>
+<div id="rd-comment-form" class="mt-stack-gap-md">
+<textarea id="rd-comment-input" class="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-surface-variant focus:ring-2 focus:ring-primary font-body-md text-body-md text-on-surface" rows="2" placeholder="Add a comment..." data-i18n-placeholder="lbl_add_comment_ph"></textarea>
+<button id="rd-comment-post" class="mt-3 h-11 px-6 rounded-full bg-primary text-on-primary font-headline-md text-[15px] flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                    <span data-i18n="lbl_post_comment">Post Comment</span>
+                </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button Area / Bottom Bar for Action -->
+<div class="fixed bottom-0 left-0 right-0 p-container-margin bg-surface/90 backdrop-blur-md border-t border-surface-variant/30 shadow-[0_-4px_20px_rgba(90,113,89,0.1)] z-40 md:flex md:justify-center">
+<div class="md:w-[400px]">
+<button id="cook-this-btn" data-recipe="rustic-basil-pomodoro" class="w-full h-14 rounded-full bg-primary text-on-primary font-headline-md text-[18px] flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-[0_4px_12px_rgba(90,113,89,0.3)]">
+<span class="material-symbols-outlined" data-icon="skillet">skillet</span>
+                <span data-i18n="lbl_cook_this">Cook This</span>
+            </button>
+<div class="flex gap-2 mt-2">
+<button id="rd-share-btn" class="flex-1 h-12 rounded-full bg-secondary-container text-on-secondary-container font-headline-md text-[15px] flex items-center justify-center gap-2 hover:bg-secondary-fixed active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">share</span>
+                <span data-i18n="lbl_share_recipe">Share Recipe</span>
+            </button>
+<button id="rd-share-group-btn" class="flex-1 h-12 rounded-full bg-tertiary-container text-on-tertiary-container font-headline-md text-[15px] flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">group</span>
+                <span>Share to Group</span>
+            </button>
+<button id="rd-edit-btn" data-action="edit-recipe" data-recipe="rustic-basil-pomodoro" class="hidden flex-1 h-12 rounded-full bg-secondary-container text-on-secondary-container font-headline-md text-[15px] flex items-center justify-center gap-2 hover:bg-secondary-fixed active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                <span data-i18n="lbl_edit_recipe">Edit Recipe</span>
+            </button>
+</div>
+<p class="text-center font-label-caps text-label-caps text-on-surface-variant mt-2 opacity-70" data-i18n="lbl_deducts_note">Deducts ingredients from inventory</p>
+</div>
+</div>
+<script src="nutrients.js"></script>
+<script src="i18n.js"></script>
+<script src="js/01_ui_shell.js"></script>
+<script src="js/02_store_users.js"></script>
+<script src="js/03_api_social.js"></script>
+<script src="js/04_ds_coalesce.js"></script>
+<script src="js/05_sync_badge_seed.js"></script>
+<script src="js/06_auth_session.js"></script>
+<script src="js/07_notifications_follows.js"></script>
+<script src="js/08_achievements.js"></script>
+<script src="js/09_celebration_admin.js"></script>
+<script src="js/10_comments_content.js"></script>
+<script src="js/11_user_data_time.js"></script>
+<script src="js/12_inventory_media.js"></script>
+<script src="js/13_profile_bookmarks_stats.js"></script>
+<script src="js/14_my_recipes_sync.js"></script>
+<script src="js/15_catalog_cook_shopping.js"></script>
+<script src="js/16_recipe_editor_feed.js"></script>
+<script src="js/17_inventory_page.js"></script>
+<script src="js/18_recipe_details.js"></script>
+<script src="js/19_feed_page.js"></script>
+<script src="js/20_shopping_page.js"></script>
+<script src="js/21_admin_people_board.js"></script>
+<script src="js/22_profile_privacy_boot.js"></script><script src="js/23_pantry_match.js"></script><script src="js/24_diet_safety.js"></script><script src="js/25_cook_mode.js"></script><script src="js/26_pwa_offline.js"></script><script src="js/28_groups.js"></script>
+</body></html>
