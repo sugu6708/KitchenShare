@@ -111,22 +111,84 @@ var currentPage = (window.location.pathname.split('/').pop() || 'index.html');
     var forgotLink = document.querySelector('a[href="#"]'); // will be added dynamically below
   }
 
-  /* --- Forgot password handler (login.html only) --- */
+  /* --- Forgot password handler & Email Verification (login.html only) --- */
   if (currentPage === 'login.html') {
     var forgotPasswordLink = document.getElementById('ks-forgot-password');
     if (forgotPasswordLink) {
       forgotPasswordLink.addEventListener('click', function (e) {
         e.preventDefault();
-        var email = document.getElementById('ks-login-email').value;
-        if (email) {
-          serverApi('reset-request', { email: email });
-        }
+        var email = document.getElementById('ks-login-email').value.trim();
         var errEl = document.getElementById('ks-auth-error');
-        if (errEl) {
-          errEl.className = 'mb-3 p-3 rounded-lg bg-primary-container text-on-primary-container text-sm';
-          errEl.textContent = 'Contact your administrator to reset your password.';
+        if (!email) {
+          if (errEl) {
+            errEl.className = 'mb-3 p-3 rounded-lg bg-error-container text-on-error-container text-sm';
+            errEl.textContent = 'Please enter your email above first, then click Forgot Password.';
+          }
+          return;
+        }
+        serverApi('reset-request', { email: email }).then(function (r) {
+          if (errEl) {
+            if (r && r.ok) {
+              errEl.className = 'mb-3 p-3 rounded-lg bg-primary-container text-on-primary-container text-sm';
+              errEl.textContent = 'Check your email inbox! A password reset link has been sent to ' + email;
+            } else {
+              errEl.className = 'mb-3 p-3 rounded-lg bg-error-container text-on-error-container text-sm';
+              errEl.textContent = (r && r.error) || 'Failed to send reset email';
+            }
+          }
+        });
+      });
+    }
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var verifyToken = urlParams.get('verify');
+    var resetToken = urlParams.get('reset');
+    var authErr = document.getElementById('ks-auth-error');
+
+    if (verifyToken) {
+      serverApi('verify-email', { token: verifyToken }).then(function (r) {
+        if (authErr) {
+          if (r && r.ok) {
+            authErr.className = 'mb-3 p-3 rounded-lg bg-primary-container text-on-primary-container text-sm font-medium';
+            authErr.textContent = '✓ Email verified successfully! Welcome ' + (r.name || '') + '. You can now log in below.';
+            if (r.email) {
+              var emailInput = document.getElementById('ks-login-email');
+              if (emailInput) emailInput.value = r.email;
+            }
+          } else {
+            authErr.className = 'mb-3 p-3 rounded-lg bg-error-container text-on-error-container text-sm';
+            authErr.textContent = (r && r.error) || 'Verification failed or link expired.';
+          }
         }
       });
+    } else if (resetToken) {
+      setTimeout(function () {
+        var modal = document.createElement('div');
+        modal.id = 'ks-reset-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-sm';
+        modal.innerHTML = '<div class="bg-surface rounded-2xl p-6 max-w-sm w-full shadow-xl border border-surface-variant/40"><h3 class="font-headline-md text-lg text-on-surface mb-2">Create New Password</h3><p class="text-xs text-on-surface-variant mb-4">Enter a new secure password (at least 4 characters).</p><input id="ks-new-password" type="password" placeholder="New password" class="w-full px-4 py-2.5 rounded-xl border border-surface-variant mb-3 text-body-md focus:ring-2 focus:ring-primary"/><input id="ks-new-password-conf" type="password" placeholder="Confirm new password" class="w-full px-4 py-2.5 rounded-xl border border-surface-variant mb-4 text-body-md focus:ring-2 focus:ring-primary"/><div id="ks-reset-modal-err" class="hidden mb-3 text-xs text-error font-medium"></div><div class="flex gap-2 justify-end"><button id="ks-reset-cancel" class="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-variant/20 text-sm">Cancel</button><button id="ks-reset-submit" class="px-5 py-2 rounded-xl bg-primary text-on-primary text-sm font-medium hover:bg-primary/90">Save Password</button></div></div>';
+        document.body.appendChild(modal);
+        document.getElementById('ks-reset-cancel').onclick = function () { modal.remove(); };
+        document.getElementById('ks-reset-submit').onclick = function () {
+          var p1 = document.getElementById('ks-new-password').value;
+          var p2 = document.getElementById('ks-new-password-conf').value;
+          var mErr = document.getElementById('ks-reset-modal-err');
+          if (p1.length < 4) { mErr.className = 'mb-3 text-xs text-error font-medium'; mErr.textContent = 'Password must be at least 4 characters'; return; }
+          if (p1 !== p2) { mErr.className = 'mb-3 text-xs text-error font-medium'; mErr.textContent = 'Passwords do not match'; return; }
+          serverApi('reset-confirm', { token: resetToken, new_pass: p1 }).then(function (res) {
+            if (res && res.ok) {
+              modal.remove();
+              if (authErr) {
+                authErr.className = 'mb-3 p-3 rounded-lg bg-primary-container text-on-primary-container text-sm font-medium';
+                authErr.textContent = '✓ Password successfully changed! You can now log in with your new password.';
+              }
+            } else {
+              mErr.className = 'mb-3 text-xs text-error font-medium';
+              mErr.textContent = (res && res.error) || 'Password reset failed';
+            }
+          });
+        };
+      }, 300);
     }
   }
 
@@ -146,16 +208,30 @@ var currentPage = (window.location.pathname.split('/').pop() || 'index.html');
         if (!pass) return err.textContent = window.t('lbl_password') + ' required';
         if (pass.length < 4) return err.textContent = 'Password must be at least 4 characters';
         if (pass !== passConf) return err.textContent = 'Passwords do not match';
+        signupBtn.disabled = true;
+        signupBtn.textContent = 'Creating account...';
         serverApi('signup', { name: name, email: email, pass: pass }).then(function (r) {
-          if (r && r.pending) {
-            err.className = '';
-            err.textContent = 'Account created pending admin approval. ' + window.t('lbl_pending_approval');
+          signupBtn.disabled = false;
+          signupBtn.textContent = window.t('btn_signup') || 'Create Account';
+          if (r && r.unverified) {
+            err.className = 'mb-3 p-4 rounded-xl bg-primary-container text-on-primary-container font-medium text-sm leading-relaxed';
+            err.innerHTML = '<b>🎉 Registration received!</b><br/>We sent a confirmation email to <b>' + email + '</b>.<br/>Please check your inbox (or spam) and click the link to activate your account.';
+            var formArea = document.querySelector('.mt-stack-gap-md');
+            if (formArea) {
+              formArea.innerHTML = '<div class="text-center py-6"><span class="material-symbols-outlined text-primary text-5xl mb-2">mark_email_read</span><h3 class="font-headline-md text-lg text-on-surface mb-2">Check Your Inbox</h3><p class="text-sm text-on-surface-variant mb-4">We sent an activation link to <b>' + email + '</b>. Click the link to complete your signup.</p><a href="login.html" class="inline-block px-6 py-2.5 rounded-full bg-primary text-on-primary text-sm font-medium hover:opacity-90">Go to Login</a></div>';
+            }
           } else if (r && r.error) {
-            err.className = '';
+            err.className = 'mb-3 p-3 rounded-lg bg-error-container text-on-error-container text-sm';
             err.textContent = r.error;
-          } else if (r && r.user) {
-            ksToast(window.t('toast_signed_in'));
+          } else if (r && r.pending) {
+            err.className = 'mb-3 p-3 rounded-lg bg-primary-container text-on-primary-container text-sm';
+            err.textContent = 'Account created pending approval.';
           }
+        }).catch(function () {
+          signupBtn.disabled = false;
+          signupBtn.textContent = window.t('btn_signup') || 'Create Account';
+          err.className = 'mb-3 p-3 rounded-lg bg-error-container text-on-error-container text-sm';
+          err.textContent = 'Network error. Please try again.';
         });
       });
     }

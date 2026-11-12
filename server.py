@@ -38,6 +38,7 @@ import sys
 import threading
 import time
 import re
+import urllib.request
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import ThreadingMixIn
 from urllib.parse import unquote_plus
@@ -60,8 +61,51 @@ UPLOAD_DIR = os.path.join(DATA_DIR, "uploads")
 THUMB_DIR = os.path.join(UPLOAD_DIR, "thumbs")
 VIDEO_DIR = os.path.join(UPLOAD_DIR, "videos")
 ADMIN_LOG_PATH = os.path.join(DATA_DIR, "admin_audit.log")
+RESEND_CONFIG_PATH = os.path.join(DATA_DIR, "resend_config.json")
 DEFAULT_PORT = 8124
 DEFAULT_BIND = "0.0.0.0"
+
+# ---------------- Resend Email Engine ----------------
+def _load_resend_config():
+    if os.path.exists(RESEND_CONFIG_PATH):
+        try:
+            with open(RESEND_CONFIG_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+def send_email(to_email, subject, html_content):
+    """Dispatch an email via Resend API."""
+    cfg = _load_resend_config()
+    api_key = cfg.get("api_key")
+    if not api_key:
+        print("[EMAIL WARNING] No Resend API key configured. Email skipped for:", to_email)
+        return False
+    from_email = cfg.get("from_domain_email") or cfg.get("from_email") or "KitchenShare <noreply@kitchenshare.co.in>"
+    payload = json.dumps({
+        "from": from_email,
+        "to": [to_email],
+        "subject": subject,
+        "html": html_content
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": "Bearer " + api_key,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) KitchenShare/1.0"
+        }
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            res = json.loads(resp.read().decode("utf-8"))
+            print("[EMAIL SENT] Delivered to:", to_email, "id:", res.get("id"))
+            return True
+    except Exception as e:
+        print("[EMAIL ERROR] Failed to send email to", to_email, ":", e)
+        return False
 
 # Image upload limits
 MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10 MB
@@ -682,12 +726,66 @@ def api_signup(data):
     if _find_by_email(db, email):
         return {"error": "An account already exists for that email"}
     uid = "u-" + secrets.token_hex(4)
+    verify_token = secrets.token_urlsafe(32)
+    verify_expiry = int(time.time() * 1000) + (24 * 3600 * 1000) # 24 hours
+    
     rec = {"id": uid, "name": name, "tagline": "Home Cook", "bio": "",
-           "email": email, "role": "user", "status": "pending",
+           "email": email, "role": "user", "status": "unverified",
+           "verify_token": verify_token, "verify_expiry": verify_expiry,
            "pass_hash": _hash_pass(password), "join": int(time.time() * 1000)}
     db["users"].append(rec)
     _save_db(db)
-    return {"ok": True, "pending": True, "id": uid, "name": name}
+
+    # Dispatch verification email via Resend
+    cfg = _load_resend_config()
+    app_url = cfg.get("app_url", "https://kitchenshare.co.in")
+    verify_link = f"{app_url}/login.html?verify={verify_token}"
+
+    html = f"""
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; border: 1px solid #e0e0e0; border-radius: 16px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div style="display: inline-block; width: 48px; height: 48px; background-color: #425842; color: #ffffff; border-radius: 12px; line-height: 48px; font-size: 24px; font-weight: bold;">K</div>
+            <h1 style="color: #1e1e1e; font-size: 24px; margin-top: 12px; margin-bottom: 4px;">Welcome to KitchenShare!</h1>
+            <p style="color: #666; font-size: 15px; margin: 0;">Smart Kitchen & Home Cooking Hub</p>
+        </div>
+        <p style="font-size: 16px; color: #333; line-height: 1.5;">Hi {name},</p>
+        <p style="font-size: 16px; color: #333; line-height: 1.5;">Thanks for joining KitchenShare. Please confirm your email address to activate your account and start sharing recipes, tracking inventory, and cooking smart.</p>
+        <div style="text-align: center; margin: 32px 0;">
+            <a href="{verify_link}" style="background-color: #425842; color: #ffffff; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: 600; text-decoration: none; display: inline-block;">Confirm Email & Activate Account</a>
+        </div>
+        <p style="font-size: 13px; color: #777; line-height: 1.4;">If the button doesn't work, copy and paste this link in your browser:<br/><a href="{verify_link}" style="color: #425842;">{verify_link}</a></p>
+        <hr style="border: none; border-top: 1px solid #eaeaea; margin: 24px 0;"/>
+        <p style="font-size: 12px; color: #999; text-align: center;">If you didn't create an account, you can safely ignore this email.</p>
+    </div>
+    """
+    threading.Thread(target=send_email, args=(email, "Confirm your KitchenShare Account", html), daemon=True).start()
+
+    return {"ok": True, "unverified": True, "id": uid, "name": name, "message": "Verification link sent to your email!"}
+
+
+def api_verify_email(data):
+    """Verify email via token and activate account."""
+    token = str(data.get("token", "")).strip()
+    if not token:
+        return {"error": "Verification token required"}
+    db = _load_db()
+    now = int(time.time() * 1000)
+    found = None
+    for u in db.get("users", []):
+        if u.get("verify_token") == token:
+            if u.get("verify_expiry", 0) < now:
+                return {"error": "Verification link expired. Please sign up again or request a new link."}
+            found = u
+            break
+    if not found:
+        return {"error": "Invalid or already used verification token"}
+
+    found["status"] = "active"
+    found["verify_token"] = None
+    found["verify_expiry"] = None
+    _save_db(db)
+    logAdminAction("email_verified", found["id"], "system", f"Verified via email link: {found['email']}")
+    return {"ok": True, "name": found.get("name", "member"), "email": found.get("email")}
 
 
 def api_login(data):
@@ -700,6 +798,10 @@ def api_login(data):
         return {"error": "No account found with that email"}
     if u.get("status") == "pending":
         return {"error": "Your join request is pending admin approval"}
+    if u.get("status") == "unverified":
+        return {"error": "Please confirm your email address. Check your inbox for the activation link."}
+    if u.get("status") == "suspended":
+        return {"error": "Your account has been suspended by an administrator."}
     if not _check_pass(password, u.get("pass_hash")):
         return {"error": "Incorrect password"}
     # Create session
@@ -911,22 +1013,44 @@ def api_logout(request):
 
 
 def api_reset_request(data):
-    """Request a password reset link. Returns a token shown in console (no email)."""
+    """Request a password reset link and send via Resend email."""
     _clean_sessions()
     email = str(data.get("email", "")).strip().lower()
     db = _load_db()
     u = _find_by_email(db, email)
     if not u:
         return {"error": "No account found with that email"}
-    if u.get("status") != "active":
-        return {"error": "Account is not active"}
+    if u.get("status") not in ("active", "unverified"):
+        return {"error": "Account is suspended or invalid"}
     token = _gen_token()
     expiry = int(time.time() * 1000) + _RESET_EXPIRY_MS
     _RESET_TOKENS[token] = {"userId": u["id"], "expiry": expiry}
     _clean_sessions()
-    # Print to console since no email server
-    print("PASSWORD RESET TOKEN:", token, "for", email, "(valid for 1 hour)")
-    return {"ok": True, "token": token}
+
+    cfg = _load_resend_config()
+    app_url = cfg.get("app_url", "https://kitchenshare.co.in")
+    reset_link = f"{app_url}/login.html?reset={token}"
+    name = u.get("name", "KitchenShare Member")
+
+    html = f"""
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; border: 1px solid #e0e0e0; border-radius: 16px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div style="display: inline-block; width: 48px; height: 48px; background-color: #425842; color: #ffffff; border-radius: 12px; line-height: 48px; font-size: 24px; font-weight: bold;">K</div>
+            <h1 style="color: #1e1e1e; font-size: 22px; margin-top: 12px; margin-bottom: 4px;">Password Reset Request</h1>
+        </div>
+        <p style="font-size: 16px; color: #333; line-height: 1.5;">Hi {name},</p>
+        <p style="font-size: 16px; color: #333; line-height: 1.5;">We received a request to reset your KitchenShare account password. Click the button below to choose a new password (valid for 1 hour):</p>
+        <div style="text-align: center; margin: 32px 0;">
+            <a href="{reset_link}" style="background-color: #425842; color: #ffffff; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: 600; text-decoration: none; display: inline-block;">Reset Password</a>
+        </div>
+        <p style="font-size: 13px; color: #777; line-height: 1.4;">If the button doesn't work, copy and paste this link in your browser:<br/><a href="{reset_link}" style="color: #425842;">{reset_link}</a></p>
+        <hr style="border: none; border-top: 1px solid #eaeaea; margin: 24px 0;"/>
+        <p style="font-size: 12px; color: #999; text-align: center;">If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
+    </div>
+    """
+    threading.Thread(target=send_email, args=(email, "Reset your KitchenShare Password", html), daemon=True).start()
+
+    return {"ok": True, "message": "Password reset link sent to your email!"}
 
 
 def api_reset_confirm(data):
@@ -3172,6 +3296,8 @@ class KitchenShareHandler(SimpleHTTPRequestHandler):
                     r = api_cleanup_images(self, data)
                 elif action == "signup":
                     r = api_signup(data)
+                elif action == "verify-email":
+                    r = api_verify_email(data)
                 elif action == "login":
                     r = api_login(data)
                 elif action == "me":
