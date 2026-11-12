@@ -773,7 +773,8 @@ def api_verify_email(data):
     found = None
     for u in db.get("users", []):
         if u.get("verify_token") == token:
-            if u.get("verify_expiry", 0) < now:
+            expiry = u.get("verify_expiry") or 0
+            if expiry < now:
                 return {"error": "Verification link expired. Please sign up again or request a new link."}
             found = u
             break
